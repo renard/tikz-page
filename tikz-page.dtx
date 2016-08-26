@@ -139,13 +139,19 @@ version 2006/05/20 or later.
 %    \begin{macrocode}
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{tikz-page}[\pkgfiledate\space (v\pkgfileversion)]
+
 \newif\if@tp@use@textpos\@tp@use@textposfalse
+\DeclareOption{textpos}{\@tp@use@textpostrue}
+\ProcessOptions
+
+\if@tp@use@textpos
+\RequirePackage[absolute]{textpos}
+\fi
+
 \RequirePackage{tikz}
-\usetikzlibrary{plotmarks,shapes,positioning,decorations.text}
+\usetikzlibrary{plotmarks,calc,shapes,positioning,decorations.text}
 \RequirePackage{graphicx}
 \RequirePackage{calc}
-
-\RequirePackage[absolute]{textpos}
 %    \end{macrocode}
 
 
