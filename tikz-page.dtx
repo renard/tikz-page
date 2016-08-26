@@ -139,7 +139,17 @@ version 2006/05/20 or later.
 %    \begin{macrocode}
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{tikz-page}[\pkgfiledate\space (v\pkgfileversion)]
+%    \end{macrocode}
 
+% The \meta{textpos} option can be used if you want to use |textpos|
+% \meta{overlay} option instead of |current page| to position the page
+% layout. Beware that |textpos| with \meta{overlay} option maybe incompatible
+% with some other packages. On the other hand |tikz| |current page| requires
+% at least 2 compilation to work correctly. Thus you might want to use
+% \meta{textpos} at conception time and remove this option for your final
+% build or if you have incompatibility issues.
+
+%    \begin{macrocode}
 \newif\if@tp@use@textpos\@tp@use@textposfalse
 \DeclareOption{textpos}{\@tp@use@textpostrue}
 \ProcessOptions
@@ -147,7 +157,9 @@ version 2006/05/20 or later.
 \if@tp@use@textpos
 \RequirePackage[absolute]{textpos}
 \fi
+%    \end{macrocode}
 
+%    \begin{macrocode}
 \RequirePackage{tikz}
 \usetikzlibrary{plotmarks,calc,shapes,positioning,decorations.text}
 \RequirePackage{graphicx}
