@@ -79,28 +79,66 @@ version 2006/05/20 or later.
 \tcbuselibrary{breakable}
 \tcbuselibrary{skins,raster}
 \tcbset{listing engine=minted}
+\usepackage{url}
 \usepackage{minted}
 \usepackage{calc}
 \usepackage{makeidx}
 \usepackage[textpos]{tikz-page}
 \renewcommand{\headrulewidth}{0pt}
 \makeindex
+\definecolor{halfgray}{gray}{0.55}
+\newcommand\anglei{-45}
+\newcommand\angleii{45}
+\newcommand\angleiii{225}
+\newcommand\angleiv{135}
+\newcommand{\pagedecoration}{
+  \tpflip{
+    \coordinate (aux1) at ([yshift=-15pt]page.northeast);
+    \coordinate (aux2) at ([yshift=-410pt]page.northeast);
+    \coordinate (aux3) at ([xshift=-4.5cm]page.northeast);
+    \coordinate (aux4) at ([yshift=-150pt]page.northeast);
+  }{
+    \coordinate (aux1) at ([yshift=-15pt]page.northwest);
+    \coordinate (aux2) at ([yshift=-410pt]page.northwest);
+    \coordinate (aux3) at ([xshift=4.5cm]page.northwest);
+    \coordinate (aux4) at ([yshift=-150pt]page.northwest);
+    \renewcommand\anglei{-135}
+    \renewcommand\angleii{135}
+    \renewcommand\angleiii{-45}
+    \renewcommand\angleiv{45}
+  }
+  \begin{scope}[halfgray!40,line width=12pt,rounded corners=12pt]
+    \draw (aux1) -- coordinate (a) ++(\angleiii:5) -- ++(\anglei:5.1) coordinate (b);
+    \draw[shorten <= -10pt] (aux3) -- (a) -- (aux1);
+    \draw[opacity=0.6,halfgray,shorten <= -10pt] (b) -- ++(\angleiii:2.2) -- ++(\anglei:2.2);
+  \end{scope}
+  \draw[halfgray,line width=8pt,rounded corners=8pt,shorten <= -10pt]
+  (aux4) -- ++(\angleiii:0.8) -- ++(\anglei:0.8);
+  \begin{scope}[halfgray!70,line width=6pt,rounded corners=8pt]
+    \draw[shorten <= -10pt] (aux2) -- ++(\angleiii:3) coordinate[pos=0.45] (c) -- ++(\anglei:3.1);
+    \draw (aux2) -- (c) -- ++(\angleiv:2.5) -- ++(\angleii:2.5) -- ++(\anglei:2.5) coordinate[pos=0.3] (d);   
+    \draw (d) -- +(\angleii:1);
+  \end{scope}
+}
+
 \newcommand{\tikzpagelayout}{
-  \tpshowframes
-  \tikzpageputanchors
+  \pagedecoration
+  \node [,outer sep=0,inner sep=0,anchor=base] at (page.footer center) {\thepage};
+  \node [,outer sep=0,inner sep=0,anchor=base, rotate=90, color=black!10] at (page.left south) {\footnotesize{tikz-page \pkgfileversion}};
 }
 \fancypagestyle{plain}{
-  %% \fancyhf{}
-  %% \chead{\tikzpage}
+  \fancyhf{}
+  \chead{\tikzpage}
 }
 \fancypagestyle{titlepage}{
-  %% \fancyhf{}
-  %% \chead{\tikzpage}
+  \fancyhf{}
+  \chead{\tikzpage}
 }
 \pagestyle{plain}
 \begin{document}
 \DocInput{tikz-page.dtx}
 \printindex
+
 \end{document}
 %</driver>
 %<*README>
@@ -137,7 +175,8 @@ version 2006/05/20 or later.
 %     breakable=true,
 %     colframe=red!75!black,
 %     colback=white,
-%     listing options={style=tcblatex,texcsstyle=*\color{red!70!black}},
+%     listing engine=minted,
+%     minted options={breaklines,breakafter=()/+-\\,baselinestretch=0.5,fontsize=\footnotesize},
 %     listing and comment,
 %     pdf comment,
 %     compilable listing,
@@ -244,7 +283,7 @@ version 2006/05/20 or later.
 % \fi
 
 
-% A more complex example:
+% A more complex example\cite{Graphical Decoration}:
 % \iffalse
 %<*example>
 % \fi
@@ -273,38 +312,18 @@ version 2006/05/20 or later.
     \renewcommand\angleiii{-45}
     \renewcommand\angleiv{45}
   }
-\begin{scope}[halfgray!40,line width=12pt,rounded corners=12pt]
-\draw
-  (aux1) -- coordinate (a)
-  ++(\angleiii:5) --
-  ++(\anglei:5.1) coordinate (b);
-\draw[shorten <= -10pt]
-  (aux3) --
-  (a) --
-  (aux1);
-\draw[opacity=0.6,halfgray,shorten <= -10pt]
-  (b) --
-  ++(\angleiii:2.2) --
-  ++(\anglei:2.2);
-\end{scope}
-\draw[halfgray,line width=8pt,rounded corners=8pt,shorten <= -10pt]
-  (aux4) --
-  ++(\angleiii:0.8) --
-  ++(\anglei:0.8);
-\begin{scope}[halfgray!70,line width=6pt,rounded corners=8pt]
-\draw[shorten <= -10pt]
-  (aux2) --
-  ++(\angleiii:3) coordinate[pos=0.45] (c) --
-  ++(\anglei:3.1);
-\draw
-  (aux2) --
-  (c) --
-  ++(\angleiv:2.5) --
-  ++(\angleii:2.5) --
-  ++(\anglei:2.5) coordinate[pos=0.3] (d);   
-\draw 
-  (d) -- +(\angleii:1);
-\end{scope}
+  \begin{scope}[halfgray!40,line width=12pt,rounded corners=12pt]
+    \draw (aux1) -- coordinate (a) ++(\angleiii:5) -- ++(\anglei:5.1) coordinate (b);
+    \draw[shorten <= -10pt] (aux3) -- (a) -- (aux1);
+    \draw[opacity=0.6,halfgray,shorten <= -10pt] (b) -- ++(\angleiii:2.2) -- ++(\anglei:2.2);
+  \end{scope}
+  \draw[halfgray,line width=8pt,rounded corners=8pt,shorten <= -10pt]
+  (aux4) -- ++(\angleiii:0.8) -- ++(\anglei:0.8);
+  \begin{scope}[halfgray!70,line width=6pt,rounded corners=8pt]
+    \draw[shorten <= -10pt] (aux2) -- ++(\angleiii:3) coordinate[pos=0.45] (c) -- ++(\anglei:3.1);
+    \draw (aux2) -- (c) -- ++(\angleiv:2.5) -- ++(\angleii:2.5) -- ++(\anglei:2.5) coordinate[pos=0.3] (d);   
+    \draw (d) -- +(\angleii:1);
+  \end{scope}
 }
 \pagestyle{plain}
 \begin{document}
@@ -836,17 +855,17 @@ version 2006/05/20 or later.
 %
 % \Finale
 %
+% 
+% \iffalse
+% <*example>
+% \fi
+% \begin{thebibliography}{9}
 
-
-\iffalse
-<*example>
-\fi
-\begin{thebibliography}{9}
-\bibitem{algdb.net} 
-  |http://algdb.net/|
-\end{thebibliography}
-\iffalse
-</example>
-\fi
+% \bibitem{Graphical Decoration} Trying to do graphical decorations in
+% “ClassicThesis style” \url{http://tex.stackexchange.com/questions/86294}
+% \end{thebibliography}
+% \iffalse
+% </example>
+% \fi
 
 \endinput

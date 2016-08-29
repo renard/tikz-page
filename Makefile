@@ -6,6 +6,8 @@ PACKAGE = tikz-page
 
 cleanext := $(wildcard *.dvi *.aux *.glo *.ilg *.ind *.toc *.hd *.idx *.listing *.log *.out _minted-*)
 
+listings := $(wildcard $(PACKAGE)-*.tex wildcard $(PACKAGE)-*.md5 wildcard $(PACKAGE)-*.pdf)
+
 objects := $(PACKAGE).sty $(PACKAGE).pdf
 
 LATEX := $(shell which latex)
@@ -24,7 +26,7 @@ all: $(objects)
 	#$(PDFLATEX) -shell-escape $<
 
 clean:
-	$(RM) -fr $(cleanext)
+	$(RM) -fr $(cleanext) $(listings)
 
 distclean: clean
 	$(RM) -f $(objects)
