@@ -88,9 +88,6 @@ See [tikz-page.pdf](tikz-page.pdf) for further help.
 
 ![tikz example](example.png)
 
-Normal arrow details
-
-
 ## License
 
 This program is free software. It comes without any warranty, to the extent
