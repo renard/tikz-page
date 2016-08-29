@@ -1,0 +1,14 @@
+/README
+/tikz-page.zip
+/tikz-page
+/tikz-page-listing-*
+/*.aux
+/*.glo
+/*.idx
+/*.log
+/*.out
+/*.pyg
+/*.ilg
+/*.ind
+/*.toc
+/_minted-*
