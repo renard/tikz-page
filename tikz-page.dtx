@@ -1,4 +1,4 @@
-% \iffalse meta-comment
+% \iffalse meta-comment % -*- latex -*-
 %
 %<*ignore>
 \begingroup
@@ -75,16 +75,29 @@ version 2006/05/20 or later.
 \usepackage[utf8]{inputenc}
 \usepackage{tcolorbox}
 \tcbuselibrary{listings,documentation}
-\tcbuselibrary{documentation,minted}
+\tcbuselibrary{documentation,listings,minted}
 \tcbuselibrary{breakable}
-\tcbuselibrary{skins}
+\tcbuselibrary{skins,raster}
 \tcbset{listing engine=minted}
 \usepackage{minted}
 \usepackage{calc}
 \usepackage{makeidx}
-\usepackage{fancyhdr}
+\usepackage[textpos]{tikz-page}
 \renewcommand{\headrulewidth}{0pt}
 \makeindex
+\newcommand{\tikzpagelayout}{
+  \tpshowframes
+  \tikzpageputanchors
+}
+\fancypagestyle{plain}{
+  %% \fancyhf{}
+  %% \chead{\tikzpage}
+}
+\fancypagestyle{titlepage}{
+  %% \fancyhf{}
+  %% \chead{\tikzpage}
+}
+\pagestyle{plain}
 \begin{document}
 \DocInput{tikz-page.dtx}
 \printindex
@@ -99,6 +112,7 @@ version 2006/05/20 or later.
 % \iffalse
 %% DeclareTCBListing{macrocode} leave a blank line after code.
 % \fi
+
 % \expandafter \let \csname macrocode\endcsname \relax \expandafter \let \csname endmacrocode\endcsname \relax
 % \expandafter \let \csname macrocode*\endcsname \relax \expandafter \let \csname endmacrocode*\endcsname \relax
 % \newminted[macrocode]{latex}{breaklines,breakafter=()/+-\\,baselinestretch=0.5,fontsize=\footnotesize,linenos,numbersep=3mm,firstnumber=last}
@@ -106,6 +120,30 @@ version 2006/05/20 or later.
 % \BeforeBeginEnvironment{macrocode}{%
 % \begin{tcolorbox}[boxrule=0.1pt,colframe=red!75!black,left=8mm,width=\linewidth,breakable=true,colback=white,enhanced]}
 % \AfterEndEnvironment{macrocode}{\end{tcolorbox}}%
+
+
+% \newminted[example]{latex}{breaklines,breakafter=()/+-\\,baselinestretch=0.5,fontsize=\footnotesize}
+% \BeforeBeginEnvironment{example}{%
+% \begin{tcolorbox}[boxrule=0.1pt,colframe=red!75!black,left=8mm,width=\linewidth,breakable=true,colback=white,enhanced]}
+% \AfterEndEnvironment{example}{\end{tcolorbox}}%
+
+% \tcbset{
+%   tpexample/.style = {%
+%     enhanced jigsaw,
+%     lower separated=false,
+%     leftlower=0pt,
+%     rightlower=0pt,
+%     boxrule=0.1pt,
+%     breakable=true,
+%     colframe=red!75!black,
+%     colback=white,
+%     listing options={style=tcblatex,texcsstyle=*\color{red!70!black}},
+%     listing and comment,
+%     pdf comment,
+%     compilable listing,
+%     run pdflatex}
+% }
+
 
 % \iffalse
 %<*tikz-page>
@@ -116,17 +154,166 @@ version 2006/05/20 or later.
 %</tikz-page>
 % \fi
 
-
-% \let\b\begin
-% \let\e\end
-
 % \title{the \textsc{tikz-page} package }
 % \author {Sébastien Gross <seb chezwam org>}
 % \date{This file describes version \pkgfileversion\  (\pkgfiledate)}
 % \maketitle
 % \tableofcontents
+
+
 % \section{Introduction}
 
+% There are many ways to embelish a page with \LaTeX. One of the most
+% easiest way is to use |fancyhdr| which allows to redefine both headers and
+% footer. The |geometry| package is also useful to setup correct margins. If
+% you need to put some background materials this might become painful,
+% especially if you need your background to reach the page borders.
+
+% There are some trick that help you in this task. |tikz-page| helps you in
+% this way by the use of semeral mechanisms. Either you can use plain |tikz|
+% picture on the background of your page, or use the \meta{textpos} option
+% which enables absolute |textpos| positionning. Each method has its
+% benefits and nuisances. With |tikz| you have to compile your document
+% twice (which can be painful while you are designing your page layout) and
+% with |textpos| you can get some incompatibility issues (please refer to
+% |textpos| documentation).
+
+% |tikz-page| is trying to give you best of both world by creating a new
+% page object in a |tikzpicture| with many anchors. So you can easily place
+% your page material at its correct position.
+
+
+% \section{Usage}
+
+% Basically you only need to add \mintinline{latex}{\usepackage{tikz-page}}
+% at the begining of your document. Then you have to declare a
+% \docAuxCommand{tikzpagelayout} command which is executed inside the
+% background |tikzpicture|. Thus you can access the |page| shape and all its
+% anchors. For example the following simple example add the page number to
+% the footer center:
+
+% \iffalse
+%<*example>
+% \fi
+% \begin{example}
+\newcommand{tikzpagelayout}{%
+  \node [outer sep=0,inner sep=0,anchor=base] at (page.footer center) {\thepage};
+}
+% \end{example}
+% \iffalse
+%</example>
+% \fi
+
+
+% If you want to simulate the default |fancyhdr| behaviour you can define the
+% \docAuxCommand{tikzpagelayout} as following:
+
+
+% \iffalse
+%<*example>
+% \fi
+% \begin{example}
+\newcommand{tikzpagelayout}{%
+  \node [outer sep=0,inner sep=0, anchor=mid east] at (page.header east) {\tpflip{\sl\leftmark}{\sl\rightmark}};
+  \node [outer sep=0,inner sep=0, anchor=mid west] at (page.header west) {\tpflip{\sl\rightmark}{\sl\leftmark}};
+  \node [,outer sep=0,inner sep=0,anchor=base] at (page.footer center) {\thepage};
+% \end{example}
+% \iffalse
+%</example>
+% \fi
+
+% A minimum working example:
+% \iffalse
+%<*example>
+% \fi
+%\begin{tcblisting}{tpexample}
+\documentclass{article}
+\usepackage{tikz-page}
+\usepackage{lipsum}
+\newcommand{\tikzpagelayout}{
+  \tpshowframes
+  \tikzpageputanchors
+}
+\pagestyle{plain}
+\begin{document}
+\lipsum
+\end{document}
+% \end{tcblisting}
+% \iffalse
+%</example>
+% \fi
+
+
+% A more complex example:
+% \iffalse
+%<*example>
+% \fi
+%\begin{tcblisting}{tpexample}
+\documentclass{article}
+\usepackage{tikz-page}
+\usepackage{lipsum}
+\definecolor{halfgray}{gray}{0.55}
+\newcommand\anglei{-45}
+\newcommand\angleii{45}
+\newcommand\angleiii{225}
+\newcommand\angleiv{135}
+\newcommand{\tikzpagelayout}{
+  \tpflip{
+    \coordinate (aux1) at ([yshift=-15pt]page.northeast);
+    \coordinate (aux2) at ([yshift=-410pt]page.northeast);
+    \coordinate (aux3) at ([xshift=-4.5cm]page.northeast);
+    \coordinate (aux4) at ([yshift=-150pt]page.northeast);
+  }{
+    \coordinate (aux1) at ([yshift=-15pt]page.northwest);
+    \coordinate (aux2) at ([yshift=-410pt]page.northwest);
+    \coordinate (aux3) at ([xshift=4.5cm]page.northwest);
+    \coordinate (aux4) at ([yshift=-150pt]page.northwest);
+    \renewcommand\anglei{-135}
+    \renewcommand\angleii{135}
+    \renewcommand\angleiii{-45}
+    \renewcommand\angleiv{45}
+  }
+\begin{scope}[halfgray!40,line width=12pt,rounded corners=12pt]
+\draw
+  (aux1) -- coordinate (a)
+  ++(\angleiii:5) --
+  ++(\anglei:5.1) coordinate (b);
+\draw[shorten <= -10pt]
+  (aux3) --
+  (a) --
+  (aux1);
+\draw[opacity=0.6,halfgray,shorten <= -10pt]
+  (b) --
+  ++(\angleiii:2.2) --
+  ++(\anglei:2.2);
+\end{scope}
+\draw[halfgray,line width=8pt,rounded corners=8pt,shorten <= -10pt]
+  (aux4) --
+  ++(\angleiii:0.8) --
+  ++(\anglei:0.8);
+\begin{scope}[halfgray!70,line width=6pt,rounded corners=8pt]
+\draw[shorten <= -10pt]
+  (aux2) --
+  ++(\angleiii:3) coordinate[pos=0.45] (c) --
+  ++(\anglei:3.1);
+\draw
+  (aux2) --
+  (c) --
+  ++(\angleiv:2.5) --
+  ++(\angleii:2.5) --
+  ++(\anglei:2.5) coordinate[pos=0.3] (d);   
+\draw 
+  (d) -- +(\angleii:1);
+\end{scope}
+}
+\pagestyle{plain}
+\begin{document}
+\lipsum
+\end{document}
+% \end{tcblisting}
+% \iffalse
+%</example>
+% \fi
 
 
 
@@ -134,7 +321,13 @@ version 2006/05/20 or later.
 %<*tikz-page>
 % \fi
 
-% \section{code}
+% \iffalse
+%% Reset the FancyVerbLine counter to have the correct lines number in front
+%% of implementation.
+% \fi
+% \setcounter{FancyVerbLine}{0}
+
+% \section{Implementation}
 
 %    \begin{macrocode}
 \NeedsTeXFormat{LaTeX2e}
@@ -160,6 +353,7 @@ version 2006/05/20 or later.
 %    \end{macrocode}
 
 %    \begin{macrocode}
+\RequirePackage{fancyhdr}
 \RequirePackage{tikz}
 \usetikzlibrary{plotmarks,calc,shapes,positioning,decorations.text}
 \RequirePackage{graphicx}
@@ -624,6 +818,15 @@ version 2006/05/20 or later.
 %    \end{macrocode}
 
 
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \chead{\tikzpage}
+}
+\fancypagestyle{empty}{
+  \fancyhf{}
+  \chead{\tikzpage}
+}
+
 
 %
 \makeatother
@@ -633,5 +836,17 @@ version 2006/05/20 or later.
 %
 % \Finale
 %
-\endinput
 
+
+\iffalse
+<*example>
+\fi
+\begin{thebibliography}{9}
+\bibitem{algdb.net} 
+  |http://algdb.net/|
+\end{thebibliography}
+\iffalse
+</example>
+\fi
+
+\endinput
