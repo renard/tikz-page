@@ -12,8 +12,9 @@ objects := $(PACKAGE).sty $(PACKAGE).pdf
 
 LATEX := $(shell which latex)
 PDFLATEX := $(shell which pdflatex)
+PANDOC := $(shell which pandoc)
 
-all: $(objects)
+all: $(objects) README
 
 %.sty: %.dtx
 	$(RM) -f $@
@@ -30,5 +31,8 @@ clean:
 
 distclean: clean
 	$(RM) -f $(objects)
+
+README: README.md
+	$(PANDOC) -t plain -o $@ $<
 
 .PHONY: %.dty
