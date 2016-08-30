@@ -96,15 +96,15 @@ version 2006/05/20 or later.
 \newcommand\angleiv{135}
 \newcommand{\pagedecoration}{
   \tpflip{
-    \coordinate (aux1) at ([yshift=-15pt]page.northeast);
-    \coordinate (aux2) at ([yshift=-410pt]page.northeast);
-    \coordinate (aux3) at ([xshift=-4.5cm]page.northeast);
-    \coordinate (aux4) at ([yshift=-150pt]page.northeast);
+    \coordinate (aux1) at ([xshift=1.1mm, yshift=-15pt]page.northeast);
+    \coordinate (aux2) at ([xshift=1.1mm, yshift=-410pt]page.northeast);
+    \coordinate (aux3) at ([            xshift=-4.5cm]page.northeast);
+    \coordinate (aux4) at ([xshift=1.1mm, yshift=-150pt]page.northeast);
   }{
-    \coordinate (aux1) at ([yshift=-15pt]page.northwest);
-    \coordinate (aux2) at ([yshift=-410pt]page.northwest);
-    \coordinate (aux3) at ([xshift=4.5cm]page.northwest);
-    \coordinate (aux4) at ([yshift=-150pt]page.northwest);
+    \coordinate (aux1) at ([xshift=-1.1mm, yshift=-15pt]page.northwest);
+    \coordinate (aux2) at ([xshift=-1.1mm, yshift=-410pt]page.northwest);
+    \coordinate (aux3) at ([             xshift=4.5cm]page.northwest);
+    \coordinate (aux4) at ([xshift=-1.1mm, yshift=-150pt]page.northwest);
     \renewcommand\anglei{-135}
     \renewcommand\angleii{135}
     \renewcommand\angleiii{-45}
