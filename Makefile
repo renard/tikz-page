@@ -35,7 +35,7 @@ clean:
 	$(RM) -fr $(cleanext) $(listings) $(PACKAGE).zip
 
 distclean: clean
-	$(RM) -f $(objects) README $(CTANDIR)
+	$(RM) -rf $(objects) README $(CTANDIR)
 
 README: README.md
 	$(PANDOC) -t plain -o $@ $<
