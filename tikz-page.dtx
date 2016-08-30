@@ -78,7 +78,10 @@ version 2006/05/20 or later.
 \tcbuselibrary{documentation,listings,minted}
 \tcbuselibrary{breakable}
 \tcbuselibrary{skins,raster}
-\tcbset{listing engine=minted}
+\tcbset{%
+  listing engine=minted,%
+  index actual=~,
+}
 \usepackage{url}
 \usepackage{minted}
 \usepackage{calc}
