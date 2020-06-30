@@ -74,6 +74,7 @@ version 2006/05/20 or later.
 \usepackage[T1]{fontenc} 
 \usepackage[utf8]{inputenc}
 \usepackage{tcolorbox}
+\usepackage[hidelinks]{hyperref}
 \tcbuselibrary{listings,documentation}
 \tcbuselibrary{documentation,listings,minted}
 \tcbuselibrary{breakable}
@@ -82,6 +83,7 @@ version 2006/05/20 or later.
   listing engine=minted,%
   index actual=~,
 }
+\usepackage{fancyhdr}
 \usepackage{url}
 \usepackage{minted}
 \usepackage{calc}
@@ -190,8 +192,8 @@ version 2006/05/20 or later.
 % \iffalse
 %<*tikz-page>
 % \fi
-\def\pkgfileversion{1.0}
-\def\pkgfiledate{2016/08/22}
+\def\pkgfileversion{1.1}
+\def\pkgfiledate{2020/06/30}
 % \iffalse
 %</tikz-page>
 % \fi
@@ -375,7 +377,6 @@ version 2006/05/20 or later.
 %    \end{macrocode}
 
 %    \begin{macrocode}
-\RequirePackage{fancyhdr}
 \RequirePackage{tikz}
 \usetikzlibrary{plotmarks,calc,shapes,positioning,decorations.text}
 \RequirePackage{graphicx}
@@ -840,16 +841,6 @@ version 2006/05/20 or later.
 %    \end{macrocode}
 
 
-\fancypagestyle{plain}{
-  \fancyhf{}
-  \chead{\tikzpage}
-}
-\fancypagestyle{empty}{
-  \fancyhf{}
-  \chead{\tikzpage}
-}
-
-
 %
 \makeatother
 % \iffalse
@@ -862,6 +853,13 @@ version 2006/05/20 or later.
 % \iffalse
 % <*example>
 % \fi
+% \section{Changes}
+%
+% \subsection{Version 1.1}
+%
+% |fancyhdr| is not included by |tikz-page.sty| due to an
+% incompatibility with |scrlayer-scrpage|.
+%
 % \begin{thebibliography}{9}
 
 % \bibitem{Graphical Decoration} Trying to do graphical decorations in

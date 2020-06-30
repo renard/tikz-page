@@ -32,8 +32,8 @@
 
 
 
-\def\pkgfileversion{1.0}
-\def\pkgfiledate{2016/08/22}
+\def\pkgfileversion{1.1}
+\def\pkgfiledate{2020/06/30}
 
 
 
@@ -64,7 +64,6 @@
 \RequirePackage[absolute]{textpos}
 \fi
 
-\RequirePackage{fancyhdr}
 \RequirePackage{tikz}
 \usetikzlibrary{plotmarks,calc,shapes,positioning,decorations.text}
 \RequirePackage{graphicx}
@@ -433,15 +432,6 @@
   \if@tp@use@textpos
   \end{textblock*}%
   \fi
-}
-
-\fancypagestyle{plain}{
-  \fancyhf{}
-  \chead{\tikzpage}
-}
-\fancypagestyle{empty}{
-  \fancyhf{}
-  \chead{\tikzpage}
 }
 
 \makeatother
